@@ -23,19 +23,6 @@ pipeline {
       }
     }
 
-    stage('Push to Docker Hub') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-          sh '''
-            echo "$PASS" | docker login -u "$USER" --password-stdin
-            docker push ${TAG}
-            docker push ${IMAGE}:latest
-            docker logout
-          '''
-        }
-      }
-    }
-
     stage('Deploy on same VM') {
       steps {
         script {
